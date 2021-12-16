@@ -938,7 +938,7 @@ def enable_modules(self, modules, debug=False, crosscompiling=False) :
         try : self.AppendUnique(CPPDEFINES=moduleDefines[module])
         except: pass
     debugSuffix = ''
-    if sys.platform in ["darwin", "linux2", "linux"] and not crosscompiling :
+    if sys.platform in [] and not crosscompiling :
         if debug : debugSuffix = '_debug'
         for module in modules :
             if module not in pclessModules : continue
@@ -957,7 +957,7 @@ def enable_modules(self, modules, debug=False, crosscompiling=False) :
         self.ParseConfig('pkg-config %s --libs --cflags'% ' '.join(pcmodules))
         self["QT6_MOCCPPPATH"] = self["CPPPATH"]
         return
-    if sys.platform == "win32" or crosscompiling :
+    if sys.platform in ["win32", "darwin", "linux2", "linux"] or crosscompiling :
         if crosscompiling:
             transformedQtdir = transformToWinePath(self['QT6DIR'])
             self['QT6_MOC'] = "QT6DIR=%s %s"%( transformedQtdir, self['QT6_MOC'])
@@ -969,7 +969,7 @@ def enable_modules(self, modules, debug=False, crosscompiling=False) :
             self.AppendUnique(CPPPATH=[os.path.join("$QT6DIR","include","QtAssistant")])
             modules.remove("QtAssistant")
             modules.append("QtAssistantClient")
-        self.AppendUnique(LIBS=['qtmain'+debugSuffix])
+        if sys.platform == "win32": self.AppendUnique(LIBS=['qtmain'+debugSuffix])
         self.AppendUnique(LIBS=[lib.replace("Qt","Qt6")+debugSuffix for lib in modules if lib not in staticModules])
         self.PrependUnique(LIBS=[lib+debugSuffix for lib in modules if lib in staticModules])
         if 'QtOpenGL' in modules:
