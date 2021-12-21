@@ -40,7 +40,7 @@
 # Additional options for this script are:
 #
 #   -local               Creates the test files in the local directory,
-#                        also copies qtenv.py and qt5.py to their correct
+#                        also copies qtenv.py and qt6.py to their correct
 #                        places.
 #   -clean               Removes all intermediate test files.
 #
@@ -615,7 +615,7 @@ import TestSCons
 test = TestSCons.TestSCons()
 test.dir_fixture("%s")
 test.file_fixture('%sqtenv.py')
-test.file_fixture('%s__init__.py', os.path.join('site_scons','site_tools','qt5','__init__.py'))
+test.file_fixture('%s__init__.py', os.path.join('site_scons','site_tools','qt6','__init__.py'))
 test.run()
 
 test.pass_test()
@@ -626,11 +626,11 @@ def installLocalFiles(dirpath):
     dirnums = dirpath.count(os.sep)+1
     shutil.copy(os.path.join(dirpath,updir*dirnums+'qtenv.py'),
                 os.path.join(dirpath,'qtenv.py'))
-    toolpath = os.path.join(dirpath,'site_scons','site_tools','qt5')
+    toolpath = os.path.join(dirpath,'site_scons','site_tools','qt6')
     if not os.path.exists(toolpath):
         os.makedirs(toolpath)
     shutil.copy(os.path.join(dirpath,updir*(dirnums+1)+'__init__.py'),
-                os.path.join(dirpath,'site_scons','site_tools','qt5','__init__.py'))
+                os.path.join(dirpath,'site_scons','site_tools','qt6','__init__.py'))
     
 def isComplicated(keyvalues):
     for s in keyvalues:
@@ -699,7 +699,7 @@ def main():
     """
 
     # Parse command line options
-    options = {'local' : False, # Install qtenv.py and qt5.py in local folder
+    options = {'local' : False, # Install qtenv.py and qt6.py in local folder
                'qtpath' : None,
                'pkgconfig' : None
                }

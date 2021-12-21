@@ -33,7 +33,7 @@ test = TestSCons.TestSCons()
 test.dir_fixture('image')
 test.file_fixture('SConscript-fails','SConscript')
 test.file_fixture('../../../qtenv.py')
-test.file_fixture('../../../../__init__.py','site_scons/site_tools/qt5/__init__.py')
+test.file_fixture('../../../../__init__.py','site_scons/site_tools/qt6/__init__.py')
 
 test.run(status=2, stderr=None)
 

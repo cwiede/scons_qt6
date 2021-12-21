@@ -1,7 +1,7 @@
 Import('qtEnv')
 
 env = qtEnv.Clone()
-env.EnableQt5Modules(['QtCore','QtWidgets'])
+env.EnableQt6Modules(['QtCore','QtWidgets'])
 
 source_files = Glob('*.cpp')+['qrc/icons.qrc']
 

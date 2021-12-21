@@ -23,6 +23,7 @@
 
 
 import os, sys, glob
+from pathlib import Path
 from SCons import Environment
 
 def findQtBinParentPath(qtpath):
@@ -80,7 +81,7 @@ def detectLatestQtVersion():
                     # No MinGW, so try VS...
                     p = findMostRecentQtPath(os.path.join(paths[-1], 'msvc*'))
         
-    return os.environ.get("QT5DIR", p)
+    return os.environ.get("QT6DIR", p)
 
 def detectPkgconfigPath(qtdir):
     pkgpath = os.path.join(qtdir, 'lib', 'pkgconfig')
@@ -97,11 +98,10 @@ def createQtEnvironment(qtdir=None, env=None):
         env = Environment.Environment(tools=['default'])
     if not qtdir:
         qtdir = detectLatestQtVersion()
-    env['QT5DIR'] = qtdir
-    if sys.platform.startswith("linux"):
-        env['ENV']['PKG_CONFIG_PATH'] = detectPkgconfigPath(qtdir)
-    env.Tool('qt5')
-    env.Append(CXXFLAGS=['-fPIC'])
+    env['QT6DIR'] = qtdir
+    #env['QT6_DEBUG'] = 1
+    env.Tool('qt6', toolpath=[os.environ.get("SCONS_TOOL_PATH", Path(__file__).parent.parent.parent)])
+    env.Append(CXXFLAGS=['-fPIC', '--std=c++17'])
 
     return env
 
