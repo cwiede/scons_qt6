@@ -1,10 +1,10 @@
-####################################
-Work in progress: The SCons qt6 tool
-####################################
+##################
+The SCons qt6 tool
+##################
 
 Introduction
 ============
-This project is a fork of Dirk Bächle's scons_qt5 tool and aims to perform the necessary changes for QT6. Note that it is not yet functional.
+This project is a fork of Dirk Bächle's scons_qt5 tool and aims to perform the necessary changes for QT6.
 
 Basics
 ======
