@@ -52,17 +52,12 @@ or set the ``QT6DIR`` as environment variable in your shell.
 
 Requirements
 ------------
-Under Linux, "qt6" uses the system tool ``pkg-config`` for automatically
-setting the required compile and link flags of the single Qt6 modules (like QtCore,
-QtGui,...).
-This means that
+Note that the qt6 tool doesn't use ``pkg-config`` anymore, because Qt6 doesn't support
+this. Instead you should have set the ``QT6DIR`` variable pointing to the QT installation.
+Inter-module dependencies of QT modules and addons might not work as smooth as with the
+qt5 tool.
 
-#. you should have ``pkg-config`` installed, and
-#. you additionally have to set ``PKG_CONFIG_PATH`` in your shell environment, such
-   that it points to $``QT5DIR/lib/pkgconfig`` (or $``QT5DIR/lib`` for some older versions).
-
-Based on these two environment variables (``QT6DIR`` and ``PKG_CONFIG_PATH``),
-the "qt6" tool initializes all ``QT6_*``
+Based on the environment variable ``QT6DIR``the "qt6" tool initializes all ``QT6_*``
 construction variables listed in the Reference manual. This happens when the tool
 is "detected" during Environment construction. As a consequence, the setup
 of the tool gets a two-stage process, if you want to override the values provided
@@ -73,11 +68,15 @@ by your current shell settings:
     # Stage 1: create plain environment
     qtEnv = Environment()
     # Set new vars
-    qtEnv['QT6DIR'] = '/usr/local/Trolltech/Qt-6.2.2
-    qtEnv['ENV']['PKG_CONFIG_PATH'] = '/usr/local/Trolltech/Qt-6.2.2/lib/pkgconfig'
+    qtEnv['QT6DIR'] = '/usr/local/Trolltech/Qt-6.2.2'
     # Stage 2: add qt6 tool
     qtEnv.Tool('qt6')
 
+It is also possible to do this in one stage:
+
+::
+
+    qtEnv = Environment(QT6DIR='/usr/local/Trolltech/Qt-6.2.2', tools=['default', 'qt6'])
 
 
 
@@ -98,12 +97,7 @@ SConstruct
     #...further customization of base env
 
     # Clone Qt environment
-    qtEnv = baseEnv.Clone()
-    # Set QT6DIR and PKG_CONFIG_PATH
-    qtEnv['ENV']['PKG_CONFIG_PATH'] = os.path.join(qtdir, 'lib/pkgconfig')
-    qtEnv['QT6DIR'] = qtdir
-    # Add qt6 tool
-    qtEnv.Tool('qt6')
+    qtEnv = baseEnv.Clone(QT6DIR=qtdir, tools=['qt6'])
     #...further customization of qt env
 
     # Export environments
