@@ -226,7 +226,7 @@ class _Automoc:
             
             # Now, check whether the corresponding CPP file
             # includes the moc'ed output directly...
-            inc_moc_cpp = _contents_regex(r'^\s*#\s*include\s+"%s"' % str(moc_cpp[0]))
+            inc_moc_cpp = _contents_regex(r'^\s*#\s*include\s+"%s"' % re.escape(str(moc_cpp[0])))
             if cpp and re.search(inc_moc_cpp, cpp_contents, re.M):
                 if moc_options['debug']:
                     print("scons: qt6: CXX file '%s' directly includes the moc'ed output '%s', no compiling required" % (str(cpp), str(moc_cpp)))
@@ -997,7 +997,7 @@ def enable_modules(self, modules, debug=False, crosscompiling=False) :
             self.AppendUnique(CPPPATH=[os.path.join("$QT6DIR","include","QtAssistant")])
             modules.remove("QtAssistant")
             modules.append("QtAssistantClient")
-        if sys.platform == "win32": self.AppendUnique(LIBS=['qtmain'+debugSuffix])
+        #if sys.platform == "win32": self.AppendUnique(LIBS=['qtmain'+debugSuffix])
         self.AppendUnique(LIBS=[lib.replace("Qt","Qt6")+debugSuffix for lib in modules if lib not in staticModules])
         self.PrependUnique(LIBS=[lib+debugSuffix for lib in modules if lib in staticModules])
         if 'QtOpenGL' in modules:
